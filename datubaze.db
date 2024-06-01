@@ -1,0 +1,51 @@
+import sqlite3
+
+savienojums = sqlite3.connect("ediens.db")
+curs = savienojums.cursor()
+
+tabula_ediens = """
+    CREATE TABLE ediens
+    (
+        ID_ediens NUMERIC NOT NULL UNIQUE,
+        recepte_ID NUMERIC NOT NULL UNIQUE,
+        valsts_ID NUMERIC NOT NULL UNIQUE,
+        kategorija_ID NUMERIC NOT NULL UNIQUE,
+        PRIMARY KEY(ID_ediens),
+        FOREIGN KEY (recepte_ID) REFERENCES recepte(ID_recepte),
+        FOREIGN KEY (valsts_ID) REFERENCES valsts(ID_valsts),
+        FOREIGN KEY (kategorija_ID) REFERENCES kategorija(ID_kategorija)
+    )
+"""
+curs.execute(tabula_ediens)
+
+tabula_valsts = """
+    CREATE TABLE valsts
+    (
+        ID_valsts NUMERIC NOT NULL UNIQUE,
+        valsts_nosaukums TEXT NOT NULL,
+        PRIMARY KEY(ID_valsts)
+    )
+"""
+curs.execute(tabula_valsts)
+
+tabula_kategorija = """
+    CREATE TABLE kategorija
+    (
+        ID_kategorija NUMERIC NOT NULL UNIQUE,
+        kategorijas_nosaukums TEXT NOT NULL,
+        PRIMARY KEY(ID_kategorija)
+    )
+"""
+curs.execute(tabula_kategorija)
+
+tabula_recepte = """
+    CREATE TABLE recepte
+    (
+        ID_recepte NUMERIC NOT NULL UNIQUE,
+        recepte TEXT NOT NULL,
+        PRIMARY KEY(ID_recepte)
+    )
+"""
+curs.execute(tabula_recepte)
+
+savienojums.commit()
